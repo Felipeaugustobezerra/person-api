@@ -1,9 +1,12 @@
 package one.innovation.digital.Person.service;
 
-import lombok.AllArgsConstructor;
 
+
+import lombok.AllArgsConstructor;
+import one.innovation.digital.Person.dto.request.PersonDTO;
 import one.innovation.digital.Person.dto.response.MessageResponseDTO;
 import one.innovation.digital.Person.entity.Person;
+import one.innovation.digital.Person.mapper.PersonMapper;
 import one.innovation.digital.Person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,13 @@ public class PersonService {
 
     private PersonRepository personRepository;
 
-    /*private final PersonMapper personMapper = PersonMapper.INSTANCE;*/
+    private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
-    public MessageResponseDTO createPerson(Person person) {
-        Person savedPerson  =  personRepository.save(person);
+
+    public MessageResponseDTO createPerson(PersonDTO personDTO) {
+        Person personToSave = personMapper.toModel(personDTO);
+
+        Person savedPerson  =  personRepository.save(personToSave);
         return MessageResponseDTO
                 .builder()
                 .message("Created Person With Id " + savedPerson.getId())
