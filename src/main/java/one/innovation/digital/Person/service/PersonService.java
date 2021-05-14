@@ -11,6 +11,8 @@ import one.innovation.digital.Person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -31,13 +33,17 @@ public class PersonService {
                 .message("Created Person With Id " + savedPerson.getId())
                 .build();//evitar criar a mensagem no construtor
     }
-/*
+
     public List<PersonDTO> listAll() {
-        List<Person> allPeople = personRepository.findAll();
-        return allPeople.stream()
+        List<Person> allpeople = personRepository.findAll();
+        return allpeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    
+/*
+
 
     public PersonDTO findById(Long id) throws PersonNotFoundException {
         Person person = verifyIfExists(id);
