@@ -1,6 +1,7 @@
 package one.innovation.digital.Person.controller;
 
 
+import lombok.AllArgsConstructor;
 import one.innovation.digital.Person.dto.request.PersonDTO;
 import one.innovation.digital.Person.dto.response.MessageResponseDTO;
 import one.innovation.digital.Person.exception.PersonNotFoundException;
@@ -17,14 +18,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
-public class PersonController {
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+public class PersonController{
 
     private PersonService personService;
 
-    @Autowired
+    /*@Autowired
     public PersonController(PersonService personService) {
         this.personService = personService;
-    }
+    }*/
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)//para mostrar o codigo 201 de criado
