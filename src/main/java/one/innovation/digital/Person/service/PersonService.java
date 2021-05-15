@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import one.innovation.digital.Person.dto.request.PersonDTO;
 import one.innovation.digital.Person.dto.response.MessageResponseDTO;
 import one.innovation.digital.Person.entity.Person;
+import one.innovation.digital.Person.exception.PersonNotFoundException;
 import one.innovation.digital.Person.mapper.PersonMapper;
 import one.innovation.digital.Person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -41,14 +43,20 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id).orElseThrow(()
+             -> new PersonNotFoundException(id));
+        return personMapper.toDTO(person);
+    }
+
+
     
 /*
 
 
-    public PersonDTO findById(Long id) throws PersonNotFoundException {
-        Person person = verifyIfExists(id);
 
-        return personMapper.toDTO(person);
+
+
     }
 
     public void delete(Long id) throws PersonNotFoundException {
