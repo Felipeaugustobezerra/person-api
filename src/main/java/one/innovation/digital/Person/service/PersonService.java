@@ -24,53 +24,27 @@ public class PersonService {
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
-
     public MessageResponseDTO createPerson(PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
 
-        Person savedPerson  =  personRepository.save(personToSave);
-        return MessageResponseDTO
-                .builder()
-                .message("Created Person With Id " + savedPerson.getId())
-                .build();//evitar criar a mensagem no construtor
+        Person savedPerson = personRepository.save(personToSave);
+        return createMessageResponse(savedPerson.getId(), "Created person with ID ");
     }
 
     public List<PersonDTO> listAll() {
-        List<Person> allpeople = personRepository.findAll();
-        return allpeople.stream()
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public PersonDTO findById(Long id) throws PersonNotFoundException {
         Person person = verifyIfExists(id);
+
         return personMapper.toDTO(person);
     }
 
     public void deleteById(Long id) throws PersonNotFoundException {
-        personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
-
-        personRepository.deleteById(id);
-    }
-
-    private Person verifyIfExists(Long id) throws PersonNotFoundException {
-        return personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
-
-    }
-
-
-    
-/*
-
-
-
-
-
-    }
-
-    public void delete(Long id) throws PersonNotFoundException {
         verifyIfExists(id);
         personRepository.deleteById(id);
     }
@@ -94,5 +68,6 @@ public class PersonService {
                 .builder()
                 .message(message + id)
                 .build();
-    }*/
+    }
 }
+
